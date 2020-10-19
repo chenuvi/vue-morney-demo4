@@ -42,6 +42,7 @@
     }
 
     update(name: string) {
+      console.log(name);
       if (this.tag) {
         tagListModel.update(this.tag.id, name);
       }
@@ -58,6 +59,7 @@
     }
 
     goBack() {
+      console.log(this.$router.back);
       this.$router.back();
     }
   }
