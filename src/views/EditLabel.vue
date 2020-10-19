@@ -17,81 +17,80 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
-  import tagListModel from '@/models/tagListModel';
-  import FormItem from '@/components/Money/FormItem.vue';
-  import Button from '@/components/Button.vue';
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import tagListModel from '@/models/tagListModel';
+import FormItem from '@/components/Money/FormItem.vue';
+import Button from '@/components/Button.vue';
 
-  @Component({
-    components: {Button, FormItem}
-  })
-  export default class EditLabel extends Vue {
-    tag?: { id: string, name: string } = undefined;
+@Component({
+  components: {Button, FormItem}
+})
+export default class EditLabel extends Vue {
+  tag?: Tag = undefined;
 
-    created() {
-      const id = this.$route.params.id;
-      tagListModel.fetch();
-      const tags = tagListModel.data;
-      const tag = tags.filter(t => t.id === id)[0];
-      if (tag) {
-        this.tag = tag;
-      } else {
-        this.$router.replace('/404');
-      }
-    }
+  created() {
 
-    update(name: string) {
-      console.log(name);
-      if (this.tag) {
-        tagListModel.update(this.tag.id, name);
-      }
-    }
+    this.tag = window.findTag(this.$route.params.id)
 
-    remove() {
-      if (this.tag) {
-        if (tagListModel.remove(this.tag.id)) {
-          this.$router.back();
-        } else {
-          window.alert('删除失败');
-        }
-      }
-    }
-
-    goBack() {
-      console.log(this.$router.back);
-      this.$router.back();
+    if (!this.tag) {
+      this.$router.replace('/404');
     }
   }
+
+  update(name: string) {
+    window.updateTag(this.tag.id,name)
+  }
+
+  remove() {
+    if (this.tag) {
+      if(window.removeTag(this.tag.id)){
+        this.$router.back()
+      }else {
+        window.alert("删除标签失败")
+      }
+    }
+  }
+
+  goBack() {
+    console.log(this.$router.back);
+    this.$router.back();
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  .navBar {
-    text-align: center;
-    font-size: 16px;
-    padding: 12px 16px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    > .title {
-    }
-    > .leftIcon {
-      width: 24px;
-      height: 24px;
-    }
-    > .rightIcon {
-      width: 24px;
-      height: 24px;
-    }
+.navBar {
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 16px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > .title {
   }
-  .form-wrapper {
-    background: white;
-    margin-top: 8px;
+
+  > .leftIcon {
+    width: 24px;
+    height: 24px;
   }
-  .button-wrapper {
-    text-align: center;
-    padding: 16px;
-    margin-top: 44-16px;
+
+  > .rightIcon {
+    width: 24px;
+    height: 24px;
   }
+}
+
+.form-wrapper {
+  background: white;
+  margin-top: 8px;
+}
+
+.button-wrapper {
+  text-align: center;
+  padding: 16px;
+  margin-top: 44-16px;
+}
 </style>
