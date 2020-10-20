@@ -19,11 +19,13 @@ type TagListModel = {
 }
 
 interface Window {
-    tagList: Tag[]
-    createTag: (name: string) => void
-    removeTag: (id: string) => boolean
-    updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
-    findTag: (id: string) => Tag | string
-    recordList: RecordItem[]
-    createRecord: (record: RecordItem) => void
+    store: {
+        tagList: Tag[]
+        createTag: (name: string) => void
+        removeTag: (id: string) => boolean
+        updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
+        findTag: (id: string) => Tag | string
+        recordList: RecordItem[]
+        createRecord: (record: RecordItem) => void
+    }
 }
