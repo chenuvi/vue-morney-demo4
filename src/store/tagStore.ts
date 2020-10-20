@@ -1,22 +1,60 @@
-import tagListModel from '@/models/tagListModel';
-export default {
-    // tag store
-    tagList: tagListModel.fetch(),
-    createTag: function (name: string) {
-        const message = tagListModel.create(name);
-        if (message === 'duplicated') {
+import createId from '@/lib/createId';
+
+const localStorageKeyName = 'tagList';
+const tagStore = {
+    tagList: [] as Tag[],
+    fetchTag() {
+        this.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
+        return this.tagList;
+    },
+    findTag(id: string) {
+        return this.tagList.filter(t => t.id === id)[0];
+    },
+    createTag(name: string) {
+        // this.data = [{id:'1', name:'1'}, {id:'2', name:'2'}]
+        const names = this.tagList.map(item => item.name);
+        if (names.indexOf(name) >= 0) {
             window.alert('标签名重复了');
-        } else if (message === 'success') {
-            window.alert('添加成功');
+            return 'duplicated';
+        } else {
+            const id = createId().toString();
+            this.tagList.push({id, name: name});
+            this.saveTag();
+            return 'success';
         }
     },
-    removeTag: (id: string) => {
-        return tagListModel.remove(id);
+    updateTag(id: string, name: string) {
+        const idList = this.tagList.map(item => item.id);
+        if (idList.indexOf(id) >= 0) {
+            const names = this.tagList.map(item => item.name);
+            if (names.indexOf(name) >= 0) {
+                return 'duplicated';
+            } else {
+                const tag = this.tagList.filter(item => item.id === id)[0];
+                tag.name = name;
+                this.saveTag();
+                return 'success';
+            }
+        } else {
+            return 'not found';
+        }
     },
-    updateTag: (id: string, name: string) => {
-        return tagListModel.update(id, name);
+    removeTag(id: string) {
+        let index = -1;
+        for (let i = 0; i < this.tagList.length; i++) {
+            if (this.tagList[i].id === id) {
+                index = i;
+                break;
+            }
+        }
+        this.tagList.splice(index, 1);
+        this.saveTag();
+        return true;
     },
-    findTag: function (id: string) {
-        return this.tagList.filter(t => t.id === id)[0];
+    saveTag() {
+        window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.tagList));
     }
 };
+
+tagStore.fetchTag();
+export default tagStore;
