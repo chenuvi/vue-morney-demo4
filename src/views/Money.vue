@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    {{recordList}}
+    <!-- {{recordList}}-->
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <div class="notes">
@@ -9,7 +9,7 @@
                 @update:value="onUpdateNotes"
       />
     </div>
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
+    <Tags />
   </Layout>
 </template>
 
@@ -32,10 +32,6 @@
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
     };
-
-    onUpdateTags(value: string[]) {
-      this.record.tags = value;
-    }
 
     onUpdateNotes(value: string) {
       this.record.notes = value;
