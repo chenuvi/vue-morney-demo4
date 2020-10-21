@@ -30,7 +30,8 @@
     }
   })
   export default class Money extends Vue {
-    // tags = $store.state.tagList;
+    // TODO
+    // tags = store.tagList;
 
     record: RecordItem = {
       tags: [], notes: '', type: '-', amount: 0
