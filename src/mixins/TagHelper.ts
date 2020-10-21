@@ -12,4 +12,4 @@ export class TagHelper extends Vue {
     }
 }
 
-// export default TagHelper;
+export default TagHelper;
