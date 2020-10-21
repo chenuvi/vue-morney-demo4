@@ -75,8 +75,8 @@ const store =  new Vuex.Store({
     //   this.saveTag();
     //   return true;
     // },
-    saveTag() {
-      window.localStorage.setItem('tagList', JSON.stringify(this.tagList));
+    saveTag(state) {
+      window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     }
   }
 })
