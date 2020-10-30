@@ -3,23 +3,13 @@
     <Tabs :dataSource="typeList" :value.sync="type" class-prefix="type"></Tabs>
     <Tabs :dataSource="recordTypeList" :value.sync="interval" class-prefix="interval"></Tabs>
     <ol>
-      <!--      <li v-for="(group,index) in result" :key="index">-->
-      <!--        <h3 class="title">{{group.title}}</h3>-->
-      <!--        <ol>-->
-      <!--          <li v-for="item in group.items" :key="item.id">-->
-      <!--            <span>tags: {{item.tags}}</span> ||-->
-      <!--            <span>notes: {{item.notes}}</span> ||-->
-      <!--            <span>amount: ￥{{item.amount}}</span>-->
-      <!--          </li>-->
-      <!--        </ol>-->
-      <!--      </li>-->
       <li v-for="(group,index) in result" :key="index">
-        <h3 class="title">{{group.title}}</h3>
+        <h4 class="title">{{group.title}}</h4>
         <ol>
           <li v-for="item in group.items" :key="item.id"
               class="record">
-            <span>标签：{{tagString(item.tags)}}</span>|
-            <span class="notes">备注：{{item.notes}}</span>|
+            <span>标签：{{tagString(item.tags)}}</span>
+            <span class="staticsNotes">备注：{{item.notes}}</span>
             <span>金额：￥{{item.amount}} </span>
           </li>
         </ol>
@@ -76,19 +66,36 @@
 </script>
 
 <style scoped lang="scss">
-  ::v-deep .type-tabs-item {
-    background: white;
-
-    &.selected {
+  ::v-deep {
+    .type-tabs-item {
       background: #C4C4C4;
-
-      &::after {
-        display: none;
+      height: 48px;
+      &.selected {
+        background: white;
+        &::after {
+          display: none;
+        }
       }
     }
   }
-
-  ::v-deep .interval-tabs-item {
-    height: 48px;
+  %item {
+    padding: 8px 16px;
+    line-height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
   }
+  .title{
+    @extend %item;
+  }
+  .record {
+    background: white;
+    @extend %item;
+    .staticsNotes{
+      margin-right: auto;
+      margin-left: 16px;
+      color: #999;
+    }
+  }
+
 </style>
