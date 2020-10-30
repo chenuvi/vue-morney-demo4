@@ -1,29 +1,8 @@
-# morney-3
+# 简记
 
-## Project setup
-```
-yarn install
-```
+技术栈： Vue2 + TypeScripe + Scss
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+####  介绍： 手机浏览器可以使用的简约记账 H5, 采用浏览器内部储存。
 
-### Compiles and minifies for production
-```
-yarn build
-```
+拥有自定义记账标签，可以添加备注，统记每日数据
 
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
