@@ -4,7 +4,7 @@
     <Tabs :dataSource="recordTypeList" :value.sync="interval" class-prefix="interval"></Tabs>
     <ol>
       <li v-for="(group,index) in result" :key="index">
-        <h4 class="title">{{group.title}}</h4>
+        <h4 class="title">{{beautify(group.title)}}</h4>
         <ol>
           <li v-for="item in group.items" :key="item.id"
               class="record">
@@ -24,7 +24,9 @@
   import Tabs from '@/views/Tabs.vue';
   import typeList from '@/constants/recordTypeList';
   import recordTypeList from '@/constants/intervalList';
+  import dayjs from 'dayjs';
 
+  console.log(dayjs());
   @Component({
     components: {Tabs}
   })
@@ -62,6 +64,20 @@
       }
       return tags.length === 0 ? '无' : tagList.join(',');
     }
+
+    beautify(time: string) {
+      const day = dayjs(time);
+      const now = dayjs();
+      if (day.isSame(now,'day')){
+        return '今天'
+      }else if (day.isSame(now.subtract(1,'day'),'day')){
+        return '昨天'
+      }else if (day.isSame(now.subtract(2,'day'),'day')){
+        return '前天'
+      }else{
+        return time
+      }
+    }
   }
 </script>
 
@@ -70,14 +86,17 @@
     .type-tabs-item {
       background: #C4C4C4;
       height: 48px;
+
       &.selected {
         background: white;
+
         &::after {
           display: none;
         }
       }
     }
   }
+
   %item {
     padding: 8px 16px;
     line-height: 24px;
@@ -85,13 +104,16 @@
     justify-content: space-between;
     align-content: center;
   }
-  .title{
+
+  .title {
     @extend %item;
   }
+
   .record {
     background: white;
     @extend %item;
-    .staticsNotes{
+
+    .staticsNotes {
       margin-right: auto;
       margin-left: 16px;
       color: #999;
