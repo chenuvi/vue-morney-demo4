@@ -3,7 +3,7 @@
     <Tabs :dataSource="typeList" :value.sync="type" class-prefix="type"></Tabs>
     <Tabs :dataSource="recordTypeList" :value.sync="interval" class-prefix="interval"></Tabs>
     <ol>
-      <li v-for="(group,index) in result" :key="index">
+      <li v-for="(group,index) in groupedList" :key="index">
         <h4 class="title">{{beautify(group.title)}}</h4>
         <ol>
           <li v-for="item in group.items" :key="item.id"
@@ -44,17 +44,23 @@
       return (this.$store.state as RootState).recordList;
     }
 
-    get result() {
+    get groupedList() {
       const {recordList} = this;
-      type HashTableValue = { title: string, items: RecordList[] }
+      if(recordList.length === 0){return []}
+      const newList = recordList.sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+      const result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}]
+      for(let i=1;i<newList.length;i++){
+        const current =  newList[i]
+        const last = result[result.length -1]
+       if(dayjs(last.title).isSame(dayjs(current.createdAt),'day')){
+         last.items.push(current)
+       } else{
+         result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]})
+       }
 
-      const hashTable: { [key: string]: HashTableValue } = {};
-      for (let i = 0; i < recordList.length; i++) {
-        const [date, time] = recordList[i].createdAt!.split('T');
-        hashTable[date] = hashTable[date] || {title: date, items: []};
-        hashTable[date].items.push(recordList[i]);
       }
-      return hashTable;
+      console.log(result);
+      return result
     }
 
     tagString(tags: Tag[]) {
@@ -68,14 +74,14 @@
     beautify(time: string) {
       const day = dayjs(time);
       const now = dayjs();
-      if (day.isSame(now,'day')){
-        return '今天'
-      }else if (day.isSame(now.subtract(1,'day'),'day')){
-        return '昨天'
-      }else if (day.isSame(now.subtract(2,'day'),'day')){
-        return '前天'
-      }else{
-        return time
+      if (day.isSame(now, 'day')) {
+        return '今天';
+      } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
+        return '昨天';
+      } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
+        return '前天';
+      } else {
+        return time;
       }
     }
   }
