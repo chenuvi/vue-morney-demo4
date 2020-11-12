@@ -10,6 +10,7 @@
           @click="toggle(tag)">{{ tag.name }}
       </li>
     </ul>
+    <h2><span>简小律记账本</span></h2>
   </div>
 
 </template>
@@ -41,14 +42,20 @@ export default class Tags extends mixins(TagHelper) {
     } else {
       this.selectedTags.push(tag);
     }
-    this.$emit('update:value', this.selectedTags);
+    this.$store.commit('updateTag', this.selectedTags);
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  h2{
+    color:white;
+    text-align: center;
+    display: inline-block;
+    margin-bottom:.5em;
+  }
 .tags {
-  background: white;
+  background: #3EB575;
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;
@@ -60,7 +67,7 @@ export default class Tags extends mixins(TagHelper) {
     flex-wrap: wrap;
 
     > li {
-      $bg: #d9d9d9;
+      $bg: #EDEDED;
       background: $bg;
       $h: 24px;
       height: $h;
@@ -71,7 +78,7 @@ export default class Tags extends mixins(TagHelper) {
       margin-top: 4px;
 
       &.selected {
-        background: darken($bg, 50%);
+        background: darken($bg, 25%);
         color: white;
       }
     }
@@ -83,7 +90,7 @@ export default class Tags extends mixins(TagHelper) {
     button {
       background: transparent;
       border: none;
-      color: #999;
+      color: #fff;
       border-bottom: 1px solid;
       padding: 0 4px;
     }

@@ -106,27 +106,27 @@
         }
 
         &:nth-child(2), &:nth-child(5) {
-          background: darken($bg, 4%);
+          background: darken($bg, 1%);
         }
 
         &:nth-child(3), &:nth-child(6), &:nth-child(9) {
-          background: darken($bg, 4*2%);
+          background: darken($bg, 2%);
         }
 
         &:nth-child(4), &:nth-child(7), &:nth-child(10) {
-          background: darken($bg, 4*3%);
+          background: darken($bg, 3%);
         }
 
         &:nth-child(8), &:nth-child(11), &:nth-child(13) {
-          background: darken($bg, 4*4%);
+          background: darken($bg, 4%);
         }
 
         &:nth-child(14) {
-          background: darken($bg, 4*5%);
+          background: darken($bg, 5%);
         }
 
         &:nth-child(12) {
-          background: darken($bg, 4*6%);
+          background: #9CD7B7;
         }
       }
     }

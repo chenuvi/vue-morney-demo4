@@ -3,11 +3,11 @@
     <Tabs :dataSource="typeList" :value.sync="type" class-prefix="type"></Tabs>
     <ol>
       <li v-for="(group,index) in groupedList" :key="index">
-        <h4 class="title">{{beautify(group.title)}} <span>{{group.total}}</span></h4>
+        <h3 class="title">{{beautify(group.title)}} <span><b>{{group.total}}</b></span></h3>
         <ol>
           <li v-for="item in group.items" :key="item.id"
               class="record">
-            <span>标签：{{tagString(item.tags)}}</span>
+<!--            <span>标签：{{tagString(item.tags)}}</span>-->
             <span class="staticsNotes">备注：{{item.notes}}</span>
             <span>金额：￥{{item.amount}} </span>
           </li>
@@ -41,6 +41,9 @@
 
     get recordList() {
       return (this.$store.state as RootState).recordList;
+    }
+    get localTypeList (){
+      return (this.$store.state as RootState).tagList
     }
 
     get groupedList() {
@@ -92,11 +95,11 @@
 <style scoped lang="scss">
   ::v-deep {
     .type-tabs-item {
-      background: #C4C4C4;
+      background: #3EB575;
       height: 48px;
-
+      color:#555;
       &.selected {
-        background: white;
+        color: white;
 
         &::after {
           display: none;
@@ -111,14 +114,18 @@
     display: flex;
     justify-content: space-between;
     align-content: center;
+
   }
 
   .title {
     @extend %item;
+    background: lighten(#F5F5F5,1.5%);
+    font-weight: 400;
+    color:darken(#54BD85,15%);
   }
 
   .record {
-    background: white;
+    background: lighten(#F5F5F5,1.5%);
     @extend %item;
 
     .staticsNotes {

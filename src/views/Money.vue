@@ -8,7 +8,7 @@
                 @update:value="onUpdateNotes"
       />
     </div>
-    <Tags @update:value="onUpdateTags"/>
+    <Tags/>
   </Layout>
 </template>
 
